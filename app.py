@@ -21,6 +21,11 @@ import uuid
 import glob, os
 from pathlib import Path as p
 ###################################################################################
+#delete 
+image_folder = p.cwd() / "images"
+p(image_folder).mkdir(parents=True, exist_ok=True)
+
+
 def text_gen(festival,lob,offer):
 
     if lob =="Kitchen":
@@ -209,21 +214,21 @@ def display_images_in_grid(images,basic_text,lang_resp):
 
             # image.save(target_file)        
 
-            """
+            # """
 
-            #save to blob
+            # #save to blob
 
-            image_bb = images[i]._pil_image.convert('RGB')
+            # image_bb = images[i]._pil_image.convert('RGB')
 
-            filename_bb = file_name+"image"+str(i)+".jpg"
+            # filename_bb = file_name+"image"+str(i)+".jpg"
 
-            image_bb.save(filename_bb, format="JPEG")
+            # image_bb.save(filename_bb, format="JPEG")
 
-            blob = bucket.blob(filename_bb)
+            # blob = bucket.blob(filename_bb)
 
-            blob.upload_from_filename(filename_bb)
+            # blob.upload_from_filename(filename_bb)
 
-            """
+            # """
 
         else:
 
@@ -322,7 +327,7 @@ def image_gen(festival,lob,offer,basic_text,lang_resp):
 
     response = generation_model.generate_images(
 
-        prompt=prompt,
+        prompt=prompt + user_prompt,
 
         number_of_images=2,
 
@@ -436,10 +441,10 @@ if __name__ == "__main__":
     # lob = lob
     # offer = offers
     # lang = language
+    files = glob.glob('images/*')
+    for f in files:
+        os.remove(f)
 
-    #delete 
-    image_folder = p.cwd() / "images"
-    p(image_folder).mkdir(parents=True, exist_ok=True)
     
     basic_text = text_gen(festival,lob,offer)
     basic_text = basic_text.replace("\n"," ")
