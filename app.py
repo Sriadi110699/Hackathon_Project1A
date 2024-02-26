@@ -100,85 +100,47 @@ def display_images_in_grid(images,basic_text,lang_resp):
 
         if i < len(images):
 
-#             credentials, project = google.auth.default()
-
-#             # Create a storage client using the authenticated credentials
-
-#             storage_client = storage.Client(project=PROJECT_ID)
-
-#             # Get a reference to the bucket
-
-#             bucket = storage_client.bucket("advt_images")
-
-            # Display the image in the current axis.
-
             ax.imshow(images[i]._pil_image)
- 
-            # Adjust the axis aspect ratio to maintain image proportions.
 
             ax.set_aspect("equal")
- 
-            # Disable axis ticks for a cleaner appearance.
 
             ax.set_xticks([])
 
             ax.set_yticks([])
-
+            
             image = images[i]._pil_image.convert('RGB')
+            words = basic_text.split()
+            new_text = ""
+            for i in range(0, len(words), 3):
+                new_text += " ".join(words[i:i+3]) + "\n"
+            
+            new_text = new_text.rstrip()
+
 
             draw = ImageDraw.Draw(image)
 
-            myFont = ImageFont.load_default(size = 100)
-
-            #myFont = ImageFont.truetype('', 255)
-
-            draw.text((100, 780), basic_text, font = myFont, fill =(255, 255, 255))
-
-#             font = ImageFont.load_default()
-
-#             font_size = 100
-
-#             while True:
-
-#                 # Wrap the text to fit the image width
-
-#                 wrapped_text = textwrap.fill(basic_text, width=image.width // 2)
-
-#                 text_width, text_height = draw.textsize(wrapped_text, font=font)
-
-#                 if text_width <= image.width and text_height <= image.height:
-
-#                     break
-
-#                 font_size -= 1
-
-#                 font = ImageFont.truetype("arial.ttf", font_size)
-
-#             x = (image.width - text_width) // 2
-
-#             y = (image.height - text_height) // 2
-
-#             draw.text((x, y), wrapped_text, font=font, fill=text_color)
-
+            myFont = ImageFont.load_default(size = 75)
+            spacing = 50
+            draw.text((100, 300), new_text, font = myFont, fill =(255, 255, 255))
             filename = str(uuid.uuid4())
-
             filename1 = "images/"+filename +"_eng"+ ".png"
-
             image.save(filename1)
 
+            #############################################
+            
             image = images[i]._pil_image.convert('RGB')
+            words = lang_resp.split()
+            new_text = ""
+            for i in range(0, len(words), 3):
+                new_text += " ".join(words[i:i+3]) + "\n"
+            
+            new_text = new_text.rstrip()
 
             draw = ImageDraw.Draw(image)
-
-            myFont = ImageFont.truetype('ttf_files/hindi.ttf',size = 100)
-
-            #myFont = ImageFont.truetype('', 255)
-
-            draw.text((100, 780), lang_resp, font = myFont, fill =(255, 255, 255))
-
-
-            filename2 = "images/"+filename +"_vern"+ ".png"
-
+            myFont = ImageFont.truetype('ttf_files/hindi.ttf')
+            spacing = 50
+            draw.text((100, 300), new_text, font = myFont,  fill =(255, 255, 255))
+            filename2 = "images/"+filename +"_hin"+ ".png"
             image.save(filename2)
 
 
@@ -410,9 +372,10 @@ button_container = st.container()
 # Add button inside the container
 with button_container:
     if st.button('Generate', key='generate_button'):
+        files = glob.glob('images/*')
+        for f in files:
+            os.remove(f)
         st.title(user_prompt)
-        PromptForAi = f"Generate a banner for {festival} Festival. The banner should include text specifying {offer} on {lob} in {lang}. The banner should include images related to {festival} and {lob} in a collage template."
-        print(PromptForAi)
         #image_creation(PromptForAi , "temp.jpg")
 st.markdown("""
 <style>
@@ -441,10 +404,7 @@ if __name__ == "__main__":
     # lob = lob
     # offer = offers
     # lang = language
-    files = glob.glob('images/*')
-    for f in files:
-        os.remove(f)
-
+    
     
     basic_text = text_gen(festival,lob,offer)
     basic_text = basic_text.replace("\n"," ")
