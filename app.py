@@ -332,7 +332,7 @@ with container:
     offer = st.selectbox(
         'Please select offer from the drop down',
         ('10', '20', '30'),
-        key='offers'
+        key='offer'
     )
 
     lang = st.selectbox(
@@ -361,7 +361,7 @@ button_container = st.container()
 with button_container:
     if st.button('Generate', key='generate_button'):
         st.title(user_prompt)
-        PromptForAi = f"Generate a banner for {festival} Festival. The banner should include text specifying {offers} on {lob} in {language}. The banner should include images related to {festival} and {lob} in a collage template."
+        PromptForAi = f"Generate a banner for {festival} Festival. The banner should include text specifying {offer} on {lob} in {lang}. The banner should include images related to {festival} and {lob} in a collage template."
         print(PromptForAi)
         #image_creation(PromptForAi , "temp.jpg")
 st.markdown("""
