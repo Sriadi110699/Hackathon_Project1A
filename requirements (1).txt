@@ -1,9 +1,5 @@
 streamlit
 streamlit_authenticator
-google-cloud-speech 
-librosa 
-jiwer 
 vertexai
-protobuf
 google-cloud-aiplatform
 matplotlib
