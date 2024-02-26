@@ -17,4 +17,4 @@ EXPOSE 8080
 ENV GOOGLE_APPLICATION_CREDENTIALS /app/key.json
  
 # Run app.py when the container launches
-CMD ["streamlit", "run", "1a.py"]
+CMD ["streamlit", "run", "app.py"]
