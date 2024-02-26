@@ -18,8 +18,13 @@ from PIL import Image, ImageDraw
 import os
 from PIL import ImageFont
 import uuid 
+import glob, os
+from pathlib import Path as p
 ###################################################################################
 def text_gen(festival,lob,offer):
+
+    if lob =="Kitchen":
+        lob = "kitchen makeovers"
     model = GenerativeModel("gemini-1.0-pro")
     message = ""
     prompt = f"You are an expert media content writer. Write content for a image.Create an offer related text which gives message that it is {offer} percent off for a specific {lob} products purchase.It should be a one liner message and eye catching. Wish users a very happy {festival}. The output should be in a plain text. No emojis"
@@ -160,37 +165,12 @@ def display_images_in_grid(images,basic_text,lang_resp):
 
             draw = ImageDraw.Draw(image)
 
-            myFont = ImageFont.load_default(size = 100)
+            myFont = ImageFont.truetype('ttf_files/hindi.ttf',size = 100)
 
             #myFont = ImageFont.truetype('', 255)
 
             draw.text((100, 780), lang_resp, font = myFont, fill =(255, 255, 255))
 
-#             font_size = 100
-
-#             while True:
-
-#                 # Wrap the text to fit the image width
-
-#                 wrapped_text = textwrap.fill(lang_resp, width=image.width // 2)
-
-#                 text_width, text_height = draw.textsize(wrapped_text, font=font)
-
-#                 if text_width <= image.width and text_height <= image.height:
-
-#                     break
-
-#                 font_size -= 1
-
-#                 font = ImageFont.truetype("arial.ttf", font_size)
-
-#             x = (image.width - text_width) // 2
-
-#             y = (image.height - text_height) // 2
-
-#             draw.text((x, y), wrapped_text, font=font, fill=text_color)
-
-#             filename = str(uuid.uuid4())
 
             filename2 = "images/"+filename +"_vern"+ ".png"
 
@@ -255,25 +235,90 @@ def display_images_in_grid(images,basic_text,lang_resp):
 
 def image_gen(festival,lob,offer,basic_text,lang_resp):
 
-    festival = "Diwali"
+    # festival = "Diwali"
 
-    lob ="kitchen"
+    # lob ="kitchen"
 
-    prompt = """
+    # prompt = "
 
-    You are an interior designing bot with expertise in generating photo-realistic images of living spaces. 
+    # You are an interior designing bot with expertise in generating photo-realistic images of living spaces. 
 
-    You need to create an image of a dining room which is decorated for celebrating the festival of Navratra. 
+    # You need to create an image of a dining room which is decorated for celebrating the festival of Navratra. 
 
-    The dining room has newly crafted wooden dining table and chairs in the middle and a big wooden crockery 
+    # The dining room has newly crafted wooden dining table and chairs in the middle and a big wooden crockery 
 
-    cabinet with transparent glass doors in the background. The room is brightly coloured which soothes the eyes. 
+    # cabinet with transparent glass doors in the background. The room is brightly coloured which soothes the eyes. 
 
-    The dining table and chairs should occupy major portion of the image. 
+    # The dining table and chairs should occupy major portion of the image. 
 
-    The dining table is laden with rasgullas and other delicacies. The image should look realistic.
+    # The dining table is laden with rasgullas and other delicacies. The image should look realistic.
 
-    """
+    # "
+
+    if (festival == 'Diwali') & (lob == 'Kitchen'):
+        prompt = "You are an interior designing bot with expertise in generating photo-realistic images of living spaces. You need to create an image of a kitchen with newly fitted cabinets, chimney and a stovetop on the night of Diwali. The kitchen's island is laden with sweets and snacks. Firecrackers can be seen bursting outside through the window on the left. The image should look realistic."
+    elif(festival == 'Diwali')& (lob == 'Home Decour'):
+        prompt = "You are an interior designing bot with expertise in generating photo-realistic images of living spaces. You need to create an image of a bedroom with newly furbished beds, curtains, lamps, side tables and wardrobes. The wooden ply of beds, side tables and wardrobes should be of the same wood type, and it should complement the paint on the walls. The room is lit with string lights, and firecrackers can be seen bursting through the window on the left. The image should look realistic."
+    elif(festival == 'Diwali')& (lob == 'Bath'):
+        prompt = "You are an interior designing bot with expertise in generating photo-realistic images of living spaces. You need to create an image of a luxurious bathroom. The bathroom has new plumbing and fitted with a number of stylish taps and showerheads. Water is drizzling down the showerhead. The bathroom floor has been laid with new and stylish tiles and the walls are tiled with realistic-looking tiles. There is a glass wall separating the bath space from the wash basin. The wash basin looks stylish with amazingly-looking faucet. The image should look realistic."
+    elif(festival == 'Diwali')& (lob == 'Interior Designs'):
+        prompt = "You are an interior designing bot with expertise in generating photo-realistic images of living spaces. You need to create an image of a bedroom with newly furbished beds, curtains, lamps, side tables and wardrobes. The wooden ply of beds, side tables and wardrobes should be of the same wood type, and it should complement the paint on the walls. The room is lit with string lights, and firecrackers can be seen bursting through the window on the left. The image should look realistic."
+    elif(festival == 'Diwali')& (lob == 'Wallpapers'):
+        prompt = "You are an interior designing bot with expertise in generating photo-realistic images of living spaces. You need to create an image of a bedroom with new wallpapers. The wallpapers should be in variety, which can include solid colours, stripes, floral patterns, abstract patterns. The scene is warm and welcoming. The image should look realistic."
+    elif(festival == 'Diwali')& (lob == 'Paints'):
+        prompt = "You are an interior designing bot with expertise in generating photo-realistic images of living spaces. You need to create an image of a bungalow on Diwali night. The bungalow has been newly painted with bright colors. The bungalow is decorated with string lights, while its porch is decorated with rangoli and diyas. Firecrackers can be seen bursting in the night sky. The bungalow should cover major potion of the image. There is a small lawn in the front of the bungalow, and a retro car is parked in front of the bungalow. The image should look realistic."
+
+
+    
+    elif (festival == 'Holi') & (lob == 'Kitchen'):
+        prompt = "You are an interior designing bot with expertise in generating photo-realistic images of living spaces. You need to create an image of a kitchen which is decorated for celebrating the festival of Holi. The kitchen has newly fitted cabinets. Sweets are kept on the kitchen's island, as well as some Holi colours are piled on dishes on the kitchen island. The view is positive. The image should look realistic."
+    elif(festival == 'Holi')& (lob == 'Home Decour'):
+        prompt = "You are an interior designing bot with expertise in generating photo-realistic images of living spaces. You need to create an image of a living room which is decorated for celebrating the festival of Holi. The living room has newly furbished sofas and coffee table in the foreground. The sofas and coffee table should occupy major portion of the image. Sweets are kept on the coffee table, as well as some Holi colours are piled on dishes on the coffee table. The view is positive. The image should look realistic."
+    elif(festival == 'Holi')& (lob == 'Bath'):
+        prompt = "You are an interior designing bot with expertise in generating photo-realistic images of living spaces. You need to create an image of a luxurious bathroom. The bathroom has new plumbing and fitted with a number of stylish taps and showerheads. Water is drizzling down the showerhead. The bathroom floor has been laid with new and stylish tiles and the walls are tiled with realistic-looking tiles. There is a glass wall separating the bath space from the wash basin. The wash basin looks stylish with amazingly-looking faucet. The image should look realistic."
+    elif(festival == 'Holi')& (lob == 'Interior Designs'):
+        prompt = "You are an interior designing bot with expertise in generating photo-realistic images of living spaces. You need to create an image of a living room which is decorated for celebrating the festival of Holi. The living room has newly furbished sofas and coffee table in the foreground. The sofas and coffee table should occupy major portion of the image. Sweets are kept on the coffee table, as well as some Holi colours are piled on dishes on the coffee table. The view is positive. The image should look realistic."
+    elif(festival == 'Holi')& (lob == 'Wallpapers'):
+        prompt = "You are an interior designing bot with expertise in generating photo-realistic images of living spaces. You need to create an image of a living room which is decorated for celebrating the festival of Holi. The living room is renovated by applying new colorful wallpapers. The walls should be more visible in the image. Sweets are kept on the coffee table, as well as some Holi colours are piled on dishes on the coffee table. The Holi colours should not be scattered on furniture and floors. The view is positive. The image should look realistic."
+    elif(festival == 'Holi')& (lob == 'Paints'):
+        prompt = "You are an interior designing bot with expertise in generating photo-realistic images of living spaces. You need to create an image of a bungalow on the day of Holi. The bungalow has been newly painted with bright paints and not with Holi colors. There are some people playing with colors in the lawn in front of the bungalow. The bungalow should cover major portion of the image. The image should look realistic."
+
+
+    
+    elif (festival == 'Navratra') & (lob == 'Kitchen'):
+        prompt = "You are an interior designing bot with expertise in generating photo-realistic images of living spaces. You need to create an image of a kitchen with newly fitted cabinets, chimney and a stovetop on the night of Navratra. The kitchen's island is laden with sweets and snacks. Pair of dandiyas is also kept on the kitchen island. The image should look realistic, and the image should be closed up."
+    elif(festival == 'Navratra')& (lob == 'Home Decour'):
+        prompt = "You are an interior designing bot with expertise in generating photo-realistic images of living spaces. You need to create an image of a dining room which is decorated for celebrating the festival of Navratra. The dining room has newly crafted wooden dining table and chairs in the middle and a big wooden crockery cabinet with transparent glass doors in the background. The room is brightly coloured which soothes the eyes. The dining table and chairs should occupy major portion of the image. The dining table is laden with rasgullas and other delicacies. The image should look realistic."
+    elif(festival == 'Navratra')& (lob == 'Bath'):
+        prompt = "You are an interior designing bot with expertise in generating photo-realistic images of living spaces. You need to create an image of a luxurious bathroom. The bathroom has new plumbing and fitted with a number of stylish taps and showerheads. Water is drizzling down the showerhead. The bathroom floor has been laid with new and stylish tiles and the walls are tiled with realistic-looking tiles. There is a glass wall separating the bath space from the wash basin. The wash basin looks stylish with amazingly-looking faucet. The image should look realistic."
+    elif(festival == 'Navratra')& (lob == 'Interior Designs'):
+        prompt = "You are an interior designing bot with expertise in generating photo-realistic images of living spaces. You need to create an image of a dining room which is decorated for celebrating the festival of Navratra. The dining room has newly crafted wooden dining table and chairs in the middle and a big wooden crockery cabinet with transparent glass doors in the background. The room is brightly coloured which soothes the eyes. The dining table and chairs should occupy major portion of the image. The dining table is laden with rasgullas and other delicacies. The image should look realistic."
+    elif(festival == 'Navratra')& (lob == 'Wallpapers'):
+        prompt = "You are an interior designing bot with expertise in generating photo-realistic images of living spaces. You need to create an image of a dining room which is decorated for celebrating the festival of Navratra. The dining room is newly renovated by applying new wallpapers with very low density of floral patterns that are pleasing and soothing to the eyes. There is a wooden dining table and chairs in the middle. The room is brightly coloured which soothes the eyes. The walls should occupy major portion of the image. The dining table is laden with rasgullas and other delicacies. The image should look realistic."
+    elif(festival == 'Navratra')& (lob == 'Paints'):
+        prompt = "You are an interior designing bot with expertise in generating photo-realistic images of living spaces. You need to create an image of a bungalow on the night of Navratra. The bungalow has been newly painted with bright paints. There are some people playing Garba and Dandiya and are wearing traditional clothes in the lawn in front of the bungalow. The bungalow is decorated with string lights and torans. The bungalow should cover major portion of the image. The image should look realistic."
+
+
+
+
+    elif (festival == 'Christmas') & (lob == 'Kitchen'):
+        prompt = "You are an interior designing bot with expertise in generating photo-realistic images of living spaces. You need to create an image of a kitchen with newly fitted cabinets, chimney and a stovetop on the night of Christmas. The kitchen's island is laden with christmas cake, cookies, candy canes and other sweets. Snowfall can be seen outside through the window on the left. The scene looks warm and pleasing. The image should look realistic."
+    elif(festival == 'Christmas')& (lob == 'Home Decour'):
+        prompt = "You are an interior designing bot with expertise in generating photo-realistic images of living spaces. You need to create an image of a living room which is decorated for celebrating the festival of Christmas. The living room has newly furbished sofas and coffee table in the foreground. The sofas and coffee table should occupy major portion of the image. The Christmas tree has been fully decorated with lights and other ornaments and is kept in the background. Snow can be seen from the window on the left side. The family is very happy. The image should look realistic."
+    elif(festival == 'Christmas')& (lob == 'Bath'):
+        prompt = "You are an interior designing bot with expertise in generating photo-realistic images of living spaces. You need to create an image of a luxurious bathroom. The bathroom has new plumbing and fitted with a number of stylish taps and showerheads. Water is drizzling down the showerhead. The bathroom floor has been laid with new and stylish tiles and the walls are tiled with realistic-looking tiles. There is a glass wall separating the bath space from the wash basin. The wash basin looks stylish with amazingly-looking faucet. The image should look realistic."
+    elif(festival == 'Christmas')& (lob == 'Interior Designs'):
+        prompt = "You are an interior designing bot with expertise in generating photo-realistic images of living spaces. You need to create an image of a living room which is decorated for celebrating the festival of Christmas. The living room has newly furbished sofas and coffee table in the foreground. The sofas and coffee table should occupy major portion of the image. The Christmas tree has been fully decorated with lights and other ornaments and is kept in the background. Snow can be seen from the window on the left side. The family is very happy. The image should look realistic."
+    elif(festival == 'Christmas')& (lob == 'Wallpapers'):
+        prompt = "You are an interior designing bot with expertise in generating photo-realistic images of living spaces. You need to create an image of a living room which is decorated for celebrating the festival of Christmas. The living room has been renovated by applying new wallpapers that complement the christmas decoration. The Christmas tree has been fully decorated with lights and other ornaments and is kept in the background. The wallpaper on the walls should appear more on the image. The scene looks warm and pleasing. The image should look realistic. "
+    elif(festival == 'Christmas')& (lob == 'Paints'):
+        prompt = "You are an interior designing bot with expertise in generating photo-realistic images of living spaces. You need to create an image of a bungalow on Christmas night. The bungalow has been newly painted with bright colors. The bungalow is decorated with string lights, while its porch is decorated with Santa Claus and reindeer blowups. The Christmas tree is also kept in the porch and is fully decorated. The bungalow should cover major potion of the image. There is a small lawn in the front of the bungalow. The image should look realistic."
+
+
+
+
+
+
 
     response = generation_model.generate_images(
 
@@ -319,7 +364,7 @@ with container:
 
     festival = st.selectbox(
         'Please select festival from the drop down',
-        ('Holi', 'Diwali', 'Pongal' , 'Christmas'),
+        ('Holi', 'Diwali', 'Navratra' , 'Christmas'),
         key='festival'
     )
 
@@ -391,6 +436,10 @@ if __name__ == "__main__":
     # lob = lob
     # offer = offers
     # lang = language
+
+    #delete 
+    image_folder = p.cwd() / "images"
+    p(image_folder).mkdir(parents=True, exist_ok=True)
     
     basic_text = text_gen(festival,lob,offer)
     basic_text = basic_text.replace("\n"," ")
@@ -398,3 +447,6 @@ if __name__ == "__main__":
     print(basic_text)
     print(lang_resp)
     image_gen(festival,lob,offer,basic_text,lang_resp)
+    st.header("Below is the A.I. generated Banners :"+"\n", divider='rainbow')
+    list_of_img = glob.glob("images/*")
+    st.image(list_of_img, use_column_width=True)
