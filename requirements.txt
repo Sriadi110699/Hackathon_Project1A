@@ -1,5 +1,7 @@
 streamlit
 streamlit_authenticator
+google-cloud-speech 
 vertexai
+protobuf
 google-cloud-aiplatform
 matplotlib
