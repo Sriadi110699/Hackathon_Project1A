@@ -137,7 +137,7 @@ def display_images_in_grid(images,basic_text,lang_resp):
             new_text = new_text.rstrip()
 
             draw = ImageDraw.Draw(image)
-            myFont = ImageFont.truetype('ttf_files/hindi.ttf')
+            myFont = ImageFont.truetype('ttf_files/hindi.ttf',size = 100)
             spacing = 50
             draw.text((100, 300), new_text, font = myFont,  fill =(255, 255, 255))
             filename2 = "images/"+filename +"_hin"+ ".png"
@@ -353,11 +353,11 @@ with container:
         key='language'
     )
 
-    target = st.selectbox(
-        'Please select target audiance from the drop down',
-        ('Kids' , 'family'),
-        key='target'
-    )
+    # target = st.selectbox(
+    #     'Please select target audiance from the drop down',
+    #     ('Kids' , 'family'),
+    #     key='target'
+    # )
 
     user_prompt = st.text_input("Enter additional prompt 👇", key='Prompt')
 
