@@ -111,8 +111,8 @@ def display_images_in_grid(images,basic_text,lang_resp):
             image = images[i]._pil_image.convert('RGB')
             words = basic_text.split()
             new_text = ""
-            for i in range(0, len(words), 3):
-                new_text += " ".join(words[i:i+3]) + "\n"
+            for j in range(0, len(words), 3):
+                new_text += " ".join(words[j:j+3]) + "\n"
             
             new_text = new_text.rstrip()
 
@@ -131,8 +131,8 @@ def display_images_in_grid(images,basic_text,lang_resp):
             image = images[i]._pil_image.convert('RGB')
             words = lang_resp.split()
             new_text = ""
-            for i in range(0, len(words), 3):
-                new_text += " ".join(words[i:i+3]) + "\n"
+            for j in range(0, len(words), 3):
+                new_text += " ".join(words[j:j+3]) + "\n"
             
             new_text = new_text.rstrip()
 
